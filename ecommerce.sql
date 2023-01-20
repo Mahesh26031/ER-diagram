@@ -5,7 +5,7 @@ CREATE  TABLE Admins
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL, 
     address text,
-    phoneno int
+    phoneno VARCHAR(255)
 )
 
 
@@ -36,6 +36,7 @@ CREATE  TABLE Customer_address
 create table specifications
 (
   id bigserial primary key unique,
+  category_id bigint not null references categories(id),
   name varchar(255) not null,
   size varchar(255) NOT NULL,
   fit varchar(255) NOT NULL,
@@ -56,7 +57,7 @@ create table discounts
 create table categories
 (
   id bigserial primary key unique,
-  specification_id bigint not null references specifications(id),
+  product_id bigint references product(id),
   name varchar(255) not null,
   description varchar(255) not null,
   created_at TIMESTAMP,
@@ -70,7 +71,6 @@ create table product
 (
   id bigserial primary key unique,
   admin_id bigint not null references admins(id),
-  category_id bigint references categories(id),
   name varchar(255) not null,
   description varchar(255) not null,
   quantity bigint not null,
@@ -127,7 +127,6 @@ create table orders(
 
 create table track_order(
   id bigserial primary key unique,
-  customers_id  bigint not null references customers(id),
   order_id  bigint not null references orders(id),
   status varchar(255),
   shipped boolean not null,
